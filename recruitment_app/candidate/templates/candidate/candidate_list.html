@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Review{% endblock %}
+{% block content %}
+
+<h1 class="display-4">Applicants detail status </h1>
+<form action="/candidate/recruitment/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+
+ {% endblock %}

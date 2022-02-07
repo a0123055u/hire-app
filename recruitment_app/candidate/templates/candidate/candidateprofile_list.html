@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Review{% endblock %}
+{% block content %}
+
+<h1 class="display-4">Applicants and their Status</h1>
+<ul class="list-group">
+{% for candidate in object_list %}
+    <li class="list-group-item">First Name - {{ candidate.first_name }} , Last Name - {{ candidate.last_name  }}, Job Name - {{candidate.job_id}}, Status - {{candidate.stage}}, Link - <a  href="{{candidate.pk}}/update/">To update Status </a></li>
+{% empty %}
+    <li>No articles yet.</li>
+{% endfor %}
+</ul>
+{% if messages %}
+          {% for message in messages %}
+              <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+             {{ message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button></div>
+          {% endfor %}
+      {% endif %}
+ {% endblock %}
