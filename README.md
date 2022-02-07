@@ -3,7 +3,7 @@
 To Run this app in your local environment 
 1) pull the code to the folder you want to run the project "git clone https://github.com/a0123055u/hire-app.git"
 2) to avoid mismatch of config use the venv folder given here 
-3) to activate venv need to go to cd venv/bin/
+3) to activate venv need to go to "cd venv/bin/"
 4) set souce "source ./activate" 
 5) to run server go to recruitment_app folder as cd ../../recruitment_app/
 6) python manage.py runserver 
