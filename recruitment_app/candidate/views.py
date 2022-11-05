@@ -72,6 +72,8 @@ class CandidateUpdateView(UpdateView):
         recruiter = self.request.user.groups.filter(name='Recruiter')
         if recruiter and recruiter.exists():
             return super().form_valid(form)
+        print(f'==========>self.OLD_STATUS-------{self.OLD_STATUS}')
+
 
     def get_object(self, *args, **kwargs):
         obj = super(CandidateUpdateView, self).get_object(*args, **kwargs)

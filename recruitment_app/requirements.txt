@@ -1,0 +1,4 @@
+Django==3.2.12
+oauth2_provider
+django-oauth-toolkit
+djangorestframework
