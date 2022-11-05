@@ -1,12 +1,17 @@
 # hire-app
 
+Normal Style
 To Run this app in your local environment 
 1) pull the code to the folder you want to run the project "git clone https://github.com/a0123055u/hire-app.git"
 2) to avoid mismatch of config use the venv folder given here 
 3) to activate venv need to go to "cd venv/bin/"
 4) set souce "source ./activate" 
+5) pip install -r requirements.txt
 5) to run server go to recruitment_app folder as "cd ../../recruitment_app/"
 6) python manage.py runserver 
+Docker Style 
+sudo docker build --tag python-django-recruitment_app .
+sudo docker run --publish 8000:8000 python-django-recruitment_app
 
 need to login to admin and redirect to the urls 
 user : admin
