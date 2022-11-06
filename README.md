@@ -9,14 +9,26 @@ To Run this app in your local environment
 5) pip install -r requirements.txt
 5) to run server go to recruitment_app folder as "cd ../../recruitment_app/"
 6) python manage.py runserver 
+
+
+Prerequisite:
+Python and pip package manager: https://packaging.python.org/en/latest/tutorials/installing-packages/
+
+
+
 Docker Style 
 sudo docker build --tag python-django-recruitment_app .
 sudo docker run --publish 8000:8000 python-django-recruitment_app
 
+Prerequisite:
+Install Docker and Docker-Compose into the local machine where one want's to run.
+
+
+Account Details:
 need to login to admin and redirect to the urls 
 user : admin
 password: trial123
 
 http://127.0.0.1:8000/candidate/list/ #to view all candidate 
 http://127.0.0.1:8000/candidate/recuritment/  #to add candidate
-http://127.0.0.1:8000/candidate/list/pk/update #to change status 
+http://127.0.0.1:8000/candidate/list/{id}/update #to change status 
