@@ -8,9 +8,12 @@ STATUS_CHOICES = (('pending', 'PENDING'),
                   ('shortlisted', 'SHORTLISTED'),
                   ('interviewing', 'INTERVIEWING'),
                   ('advanced_interviewing','ADVANCED INTERVIEWING'),
-                  ('rejected', 'REJECTED'),
+                  ('rejected_by_company', 'REJECTED BY COMPANY'),
                   ('offered', 'OFFERED'),
-                  ('hired', 'HIRED'),)
+                  ('hired', 'HIRED'),
+                  ('rejected_by_candidate', 'REJECTED BY CANDIDATE'),
+                  ('on_hold', 'ON HOLD')
+                  )
 
 class CandidateProfile(models.Model):
     first_name = models.CharField(null=False, blank=False, max_length=255)
