@@ -8,9 +8,9 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, UpdateView
 
-from .forms import CandidateForm
+from .forms import CandidateForm # CandidateUpdateForm
 from .models import CandidateProfile
-
+from django.db.models import Q
 
 def add_candidate(request):
     context = {}
@@ -36,6 +36,9 @@ class CandidateListView(ListView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def  get_queryset(self):
+        return CandidateProfile.objects.filter(~Q(stage__in=['rejected', 'rejected_by_candidate', 'rejected_by_company']))
+
 
 class CandidateUpdateView(UpdateView):
     model = CandidateProfile
@@ -47,33 +50,31 @@ class CandidateUpdateView(UpdateView):
                       ('shortlisted', '3'),
                       ('interviewing', '4'),
                       ('advanced_interviewing', '5'),
-                      ('rejected', '8'),
+                      ('rejected_by_company', '8'),
                       ('offered', '6'),
-                      ('hired', '7'),)
+                      ('hired', '7'),
+                      ('rejected_by_candidate', '8'),
+                      ('on_hold', '9')
+                      )
+    # form_class = CandidateUpdateForm
 
     def form_valid(self, form):
         status_dict = dict(self.STATUS_CHOICES)
         if self.OLD_STATUS == form.instance.stage:
             return super().form_invalid(form)
+        if self.OLD_STATUS == 'on_hold':
+            return super().form_valid(form)
+        if form.instance.stage in ['rejected_by_candidate', 'on_hold', 'rejected_by_company']:
+            return super().form_valid(form)
         if int(status_dict[self.OLD_STATUS]) > int(status_dict[form.instance.stage]):
             return super().form_invalid(form)
-        if self.OLD_STATUS == 'pending' and form.instance.stage not in ['reviewing', 'shortlisted']:
-            return super().form_invalid(form)
-        if self.OLD_STATUS == 'reviewing' and form.instance.stage != 'rejected':
-            return super().form_invalid(form)
-        if self.OLD_STATUS == 'shortlisted' and form.instance.stage != 'interviewing':
-            return super().form_invalid(form)
-        if self.OLD_STATUS == 'interviewing' and form.instance.stage not in ['advanced_interviewing', 'offered', 'rejected']:
-            return super().form_invalid(form)
-        if self.OLD_STATUS == 'advanced_interviewing' and form.instance.stage not in ['offered', 'rejected']:
-            return super().form_invalid(form)
-        if self.OLD_STATUS == 'offered' and form.instance.stage not in ['hired', 'rejected']:
+        elif int(status_dict[form.instance.stage]) - int(status_dict[self.OLD_STATUS]) >1:
             return super().form_invalid(form)
         recruiter = self.request.user.groups.filter(name='Recruiter')
         if recruiter and recruiter.exists():
             return super().form_valid(form)
-        print(f'==========>self.OLD_STATUS-------{self.OLD_STATUS}')
-
+        else:
+            return super().form_invalid(form)
 
     def get_object(self, *args, **kwargs):
         obj = super(CandidateUpdateView, self).get_object(*args, **kwargs)
@@ -81,4 +82,5 @@ class CandidateUpdateView(UpdateView):
         recruiter = self.request.user.groups.filter(name='Recruiter')
         if recruiter and recruiter.exists():
             return obj
+
 
