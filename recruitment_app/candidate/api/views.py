@@ -20,11 +20,17 @@ logger = logging.getLogger(__name__)
 class CandidateViewSet(generics.ListAPIView):
     model = CandidateProfile
     serializer_class = CandidateSerializer
-    queryset = CandidateProfile.objects.filter(~Q(stage__in=['rejected', 'rejected_by_candidate', 'rejected_by_company']))
+
+    def get_queryset(self):
+        queryset =CandidateProfile.objects.filter(~Q(stage__in=['rejected_by_candidate', 'rejected_by_company']))
+        id = self.request.query_params.get('id', None)
+        if id:
+            queryset = queryset.filter(id=id)
+        return queryset
 
 
 class CandidateAPIUpdate(generics.UpdateAPIView):
-    queryset = CandidateProfile.objects.all()
+    queryset = CandidateProfile.objects.filter(~Q(stage__in=['rejected_by_candidate', 'rejected_by_company']))
     serializer_class = CandidateSerializer
 
     def update(self, request, *args, **kwargs):
