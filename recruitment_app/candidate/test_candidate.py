@@ -59,13 +59,17 @@ def change_status(local_stage):
     # assert local_stage == cp and response.status_code == 200 if not negative and not error else local_stage != cp and response.status_code != 200
     assert local_stage == cp and response.status_code == 200
 
+
 def change_status_fail(local_stage):
     response = client.put('/candidate/api/profile/update/1', data={"stage": local_stage},
                           content_type="application/json")
     cp = CandidateProfile.objects.filter().values_list('stage', flat=True)[0]
-    print(f'change_status_fail - {local_stage}, cp -{cp}, response.status_code - {response.status_code} respponse {response}, local_stage != cp {local_stage != cp and response.status_code == 200}')
+    response_data = response.json()
+
+    print(f'local_stage (fail checking) - {local_stage}, cp -{cp}, response_data {response_data} ,respponse code {response.status_code}, local_stage != cp and {local_stage != cp and response.status_code != 200}')
     # assert local_stage == cp and response.status_code == 200 if not negative and not error else local_stage != cp and response.status_code != 200
-    assert local_stage != cp and response.status_code == 200
+    assert local_stage != cp and response.status_code != 200
+
 
 @pytest.fixture
 def set_up_models():
@@ -166,7 +170,7 @@ def test_on_hold_f_valid(set_up_models):
     local_stage = 'on_hold'
     change_status(local_stage)
 
-    local_stage = 'rejected_by_candidate'
+    local_stage = 'hired'
     change_status(local_stage)
 
     local_stage = 'on_hold'
@@ -175,7 +179,9 @@ def test_on_hold_f_valid(set_up_models):
     local_stage = 'on_hold'
     change_status_fail(local_stage)
 
-    local_stage = 'hired'
+    local_stage = 'rejected_by_candidate'
     change_status_fail(local_stage)
 
+    local_stage = 'rejected_by_company'
+    change_status_fail(local_stage)
 
