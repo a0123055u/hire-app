@@ -44,11 +44,11 @@ class CandidateAPIUpdate(generics.UpdateAPIView):
             actual_status = stage if stage in list(dict_status.keys()) else None
             serializer = CandidateSerializer(instance, many=False)
             if not stage:
-                return Response({'message': 'stage cannot be empty or null', 'error': True, 'code': 400, 'result': ''})
+                return Response({'message': 'stage cannot be empty or null', 'error': True, 'result': ''}, status=status.HTTP_400_BAD_REQUEST)
             if not actual_status:
-                return Response({'message': 'stage not found!!', 'error': True, 'code': 400, 'result': ''})
+                return Response({'message': 'stage not found!!', 'error': True, 'result': ''}, status=status.HTTP_400_BAD_REQUEST)
             if instance.stage == 'hired' or 'rejected' in instance.stage:
-                return Response({'message': 'Cannot Change the status of hired / rejected person ', 'error': True, 'code': 400, 'result': ''})
+                return Response({'message': 'Cannot Change the status of hired / rejected person ', 'error': True, 'result': ''}, status=status.HTTP_400_BAD_REQUEST)
             actual_status_index = list(dict_status.keys()).index(stage)
             old_status_index = list(dict_status.keys()).index(instance.stage)
             is_new_stage_set = instance.stage != actual_status
@@ -68,7 +68,7 @@ class CandidateAPIUpdate(generics.UpdateAPIView):
                 instance.save()
                 logger.info(f'Candidate object {instance} updated with stage {stage} successfully !!')
             else:
-                return Response({'message': 'fail due to wrong status change', 'error': True, 'code': 400, 'result': ''})
-            return Response(serializer.data)
+                return Response({'message': 'fail due to wrong status change', 'error': True, 'result': ''}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as ex:
-            return Response({'message': f'{ex}', 'error': True, 'code': 500, 'result': ''})
+            return Response({'message': f'{ex}', 'error': True, 'result': ''}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
