@@ -7,7 +7,7 @@ from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import permissions
 from ..models import CandidateProfile
-from .serializers import CandidateSerializer
+from .serializers import CandidateSerializer, CandidateStatusSerializer
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status
@@ -72,3 +72,12 @@ class CandidateAPIUpdate(generics.UpdateAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as ex:
             return Response({'message': f'{ex}', 'error': True, 'result': ''}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+from ..models import STATUS_CHOICES
+import json
+from django.http import JsonResponse
+def profile_status(request):
+    result = dict()
+    if request.method=="GET":
+        result = json.loads(json.dumps(dict(list(STATUS_CHOICES))))
+    return JsonResponse(result)
