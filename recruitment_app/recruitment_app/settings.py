@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'oauth2_provider',
     'rest_framework',
+    'rest_framework.authtoken',
     'job_application',
     'candidate',
 

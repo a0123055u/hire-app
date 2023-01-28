@@ -11,13 +11,15 @@ from .serializers import CandidateSerializer
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status
-
-from ..models import STATUS_CHOICES
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 import logging
 
 logger = logging.getLogger(__name__)
 
 class CandidateViewSet(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     model = CandidateProfile
     serializer_class = CandidateSerializer
 
@@ -30,6 +32,7 @@ class CandidateViewSet(generics.ListAPIView):
 
 
 class CandidateAPIUpdate(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = CandidateProfile.objects.filter(~Q(stage__in=['rejected_by_candidate', 'rejected_by_company']))
     serializer_class = CandidateSerializer
 
@@ -76,8 +79,9 @@ class CandidateAPIUpdate(generics.UpdateAPIView):
 from ..models import STATUS_CHOICES
 import json
 from django.http import JsonResponse
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def profile_status(request):
     result = dict()
-    if request.method=="GET":
-        result = json.loads(json.dumps(dict(list(STATUS_CHOICES))))
+    result = json.loads(json.dumps(dict(list(STATUS_CHOICES))))
     return JsonResponse(result)
