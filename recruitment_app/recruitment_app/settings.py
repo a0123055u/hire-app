@@ -29,6 +29,16 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'ec2-3-95-213-71.compute-1.amazonaws.
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+PHONE_NUMBER_REGION = 'GE'
+PHONE_NUMBERS_FORMATS_BY_REGION = {
+    'GE': {
+        'pattern': '(\\d{3})(\\d{2})(\\d{2})(\\d{2})', 'format': '\\1 \\2-\\3-\\4', 'prefix_format': '+%s (%s)'
+    },
+    'US': {
+        'pattern': '(\\d{3})(\\d{3})(\\d{4})', 'format': '\\1 \\2-\\3', 'prefix_format': '+%s (%s)'
+    },
+}
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8100",
     "http://127.0.0.1:8100",
@@ -47,9 +57,11 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_extensions',
     'job_application',
     'candidate',
-
+    'phonenumber_field',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
@@ -145,4 +157,5 @@ REST_FRAMEWORK = {
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     )
 }
+
 

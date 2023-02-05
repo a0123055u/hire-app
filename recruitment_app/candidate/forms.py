@@ -1,11 +1,11 @@
 from django.forms import ModelForm
-from candidate.models import CandidateProfile
+# from candidate.models import CandidateProfile
 from django import forms
 
-class CandidateForm(ModelForm):
-    class Meta:
-        model = CandidateProfile
-        fields = '__all__'
+# class CandidateForm(ModelForm):
+#     class Meta:
+#         model = CandidateProfile
+#         fields = '__all__'
 
 
 # class CandidateUpdateForm(ModelForm):

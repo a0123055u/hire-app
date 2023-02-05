@@ -6,7 +6,7 @@ import pytest
 # from rest_framework import status
 from django.test import TestCase, Client
 # from django.urls import reverse
-from .models import CandidateProfile
+from .models import CandidateJobStatus
 from django.contrib.auth.models import User
 from .api.serializers import CandidateSerializer
 # import recruitment_app.job_application.models
@@ -21,7 +21,7 @@ client = Client()
 
 # @pytest.fixture(scope="session")
 # def fixture_1():
-#     # candidate = CandidateProfile.objects.all()
+#     # candidate = CandidateJobStatus.objects.all()
 #     print(f"Fixture 1")
 #     return 1
 #
@@ -54,7 +54,7 @@ client = Client()
 def change_status(local_stage):
     response = client.put('/candidate/api/profile/update/1', data={"stage": local_stage},
                           content_type="application/json")
-    cp = CandidateProfile.objects.filter().values_list('stage', flat=True)[0]
+    cp = CandidateJobStatus.objects.filter().values_list('stage', flat=True)[0]
     print(f'local_stage - {local_stage}, cp -{cp}, response.status_code - {response.status_code}, local_stage == cp {local_stage == cp and response.status_code == 200}')
     # assert local_stage == cp and response.status_code == 200 if not negative and not error else local_stage != cp and response.status_code != 200
     assert local_stage == cp and response.status_code == 200
@@ -63,7 +63,7 @@ def change_status(local_stage):
 def change_status_fail(local_stage):
     response = client.put('/candidate/api/profile/update/1', data={"stage": local_stage},
                           content_type="application/json")
-    cp = CandidateProfile.objects.filter().values_list('stage', flat=True)[0]
+    cp = CandidateJobStatus.objects.filter().values_list('stage', flat=True)[0]
     response_data = response.json()
 
     print(f'local_stage (fail checking) - {local_stage}, cp -{cp}, response_data {response_data} ,respponse code {response.status_code}, local_stage != cp and {local_stage != cp and response.status_code != 200}')
@@ -78,7 +78,7 @@ def set_up_models():
                                                      is_accepting_applicant=True, maximum_head_count=5)
     job = job_application.models.JobDetails.objects.filter()[0]
     # default stage taken when object is created "pending"
-    CandidateProfile.objects.create(
+    CandidateJobStatus.objects.create(
         first_name='Casper', email='Casper@mailinator.com', last_name='Ronie', job_id=job)
 
 
@@ -88,13 +88,13 @@ def set_model_4_users():
     job_application.models.JobDetails.objects.create(title='test job', description='test job',
                                                      is_accepting_applicant=True, maximum_head_count=5)
     job = job_application.models.JobDetails.objects.filter()[0]
-    CandidateProfile.objects.create(
+    CandidateJobStatus.objects.create(
         first_name='Casper', email='Casper@mailinator.com', last_name='Ronie', job_id=job)
-    CandidateProfile.objects.create(
+    CandidateJobStatus.objects.create(
         first_name='Muffin', email='Muffin@mailinator.com', last_name='Chuk', job_id=job)
-    CandidateProfile.objects.create(
+    CandidateJobStatus.objects.create(
         first_name='Rambo', email='Rambo@mailinator.com', last_name='Gazaki', job_id=job)
-    CandidateProfile.objects.create(
+    CandidateJobStatus.objects.create(
         first_name='Ricky', email='Ricky@mailinator.com', last_name='Nick', job_id=job)
 
 
@@ -102,8 +102,8 @@ def set_model_4_users():
 def test_candidate_creation_w_job_app(set_model_4_users):
     response = client.get('/candidate/api/profile?format=json')
     print(f'response data {response.data}')
-    assert CandidateProfile.objects.count() == 4 and job_application.models.JobDetails.objects.count() == 1
-    candidates_net = CandidateProfile.objects.filter()
+    assert CandidateJobStatus.objects.count() == 4 and job_application.models.JobDetails.objects.count() == 1
+    candidates_net = CandidateJobStatus.objects.filter()
     serializer = CandidateSerializer(candidates_net, many=True)
     serializer_data = serializer.data
     print(f'serializer_data count {len(serializer_data)}, candidates_net {len(candidates_net)}')
