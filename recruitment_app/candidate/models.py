@@ -26,18 +26,6 @@ SEX_CHOICES=(('male', 'MALE'),
              ('female', 'FEMALE'),
              ('not_disclosed', 'NA'))
 
-class CandidateJobStatus(TimeStampedModel):
-    #TO DO - GOWTHAM ADD RELATION OF CandidateDetailedProfile AS fk
-    job_id = models.ForeignKey(JobDetails, on_delete=models.CASCADE)
-    resume = models.BinaryField()
-    stage = models.CharField(max_length=190, choices=STATUS_CHOICES, default='pending')
-
-    def get_absolute_url(self):
-        return reverse('candidate_list')
-
-    def __str__(self):
-        return self.email + " (" + str(self.job_id) + ") "+self.first_name + " " + self.last_name
-
 class Skill(TimeStampedModel):
     name = models.CharField(max_length=50)
     is_valid = models.BooleanField(default=True)
@@ -52,7 +40,6 @@ class Visa(TimeStampedModel):
     country = CountryField(default='IN')
     def __str__(self):
         return f'[{self.country.code}] - {self.name}'
-
 class CandidateDetailedProfile(TimeStampedModel):
     first_name = models.CharField(null=False, blank=False, max_length=255)
     last_name = models.CharField(null=False, blank=False, max_length=255)
@@ -77,3 +64,21 @@ class CandidateDetailedProfile(TimeStampedModel):
     reference_one_at_work = models.TextField(null=True, blank=True, default="")
     reference_two_at_work = models.TextField(null=True, blank=True, default="")
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'[{self.current_residency_country}]-{self.first_name}-[{self.email}]'
+class CandidateJobStatus(TimeStampedModel):
+    #TO DO - GOWTHAM ADD RELATION OF CandidateDetailedProfile AS fk
+    candidate = models.ForeignKey(CandidateDetailedProfile, on_delete=models.CASCADE, default=18)
+    job_id = models.ForeignKey(JobDetails, on_delete=models.CASCADE)
+    resume = models.BinaryField()
+    stage = models.CharField(max_length=190, choices=STATUS_CHOICES, default='pending')
+
+    def get_absolute_url(self):
+        return reverse('candidate_list')
+
+    def __str__(self):
+        return f'[{self.candidate.current_residency_country}]-{self.candidate.first_name}-[{self.candidate.email}]'
+
+
+
