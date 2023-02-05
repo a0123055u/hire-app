@@ -1,5 +1,11 @@
 Django==3.2.12
 oauth2_provider
-django-oauth-toolkit
-djangorestframework
 django-cors-headers==3.13.0
+django-cors-headers==3.13.0
+django-countries==7.5.1
+django-extensions==3.2.1
+django-filter==22.1
+django-oauth-toolkit==2.2.0
+django-phonenumber-field==6.2.0
+django-phonenumbers==1.0.1
+djangorestframework==3.14.0
