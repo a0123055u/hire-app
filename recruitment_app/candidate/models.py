@@ -66,7 +66,7 @@ class CandidateDetailedProfile(TimeStampedModel):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'[{self.current_residency_country}]-{self.first_name}-[{self.email}]'
+        return f'[{self.current_residency_country}]-[{self.id}]{self.first_name}-[{self.email}]'
 class CandidateJobStatus(TimeStampedModel):
     #TO DO - GOWTHAM ADD RELATION OF CandidateDetailedProfile AS fk
     candidate = models.ForeignKey(CandidateDetailedProfile, on_delete=models.CASCADE, default=18)
@@ -78,7 +78,7 @@ class CandidateJobStatus(TimeStampedModel):
         return reverse('candidate_list')
 
     def __str__(self):
-        return f'[{self.candidate.current_residency_country}]-{self.candidate.first_name}-[{self.candidate.email}]'
+        return f'[{self.candidate.current_residency_country}]-[{self.id}]-{self.candidate.first_name}-[{self.candidate.email}]--{self.stage}'
 
 
 
