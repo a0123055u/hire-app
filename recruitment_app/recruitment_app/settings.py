@@ -24,8 +24,8 @@ SECRET_KEY = 'django-insecure-0nemspj9(o^!!xgk(6oovfyz240^v4o(&m=ho(c&tzi!a^srsa
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'ec2-3-95-213-71.compute-1.amazonaws.com']
+# After releasing Elastic Ip and instance is restarted.
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'ec2-184-72-131-182.compute-1.amazonaws.com']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
