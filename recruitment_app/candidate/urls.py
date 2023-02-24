@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
-# from .views import add_candidate, CandidateListView, CandidateUpdateView
+from .views import home
 from .api.views import CandidateViewSet, CandidateAPIUpdate, profile_status
 from django.conf import settings
 from django.conf.urls.static import static
@@ -14,5 +14,7 @@ urlpatterns = [
     path('api/profile', CandidateViewSet.as_view(), name='api_candidate_profile'),
     path('api/profile/update/<int:pk>', CandidateAPIUpdate.as_view(), name='api_candidate_update'),
     path('api/profile/status', profile_status, name='api_candidate_status'),
+    path('accounts/', include('allauth.urls')),
+    path('home/', home, name='home')
     # path('',) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]

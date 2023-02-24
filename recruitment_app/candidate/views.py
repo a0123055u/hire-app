@@ -84,3 +84,12 @@
 #             return obj
 #
 #
+from allauth.account.decorators import login_required
+from django.http import HttpResponse
+
+
+@login_required
+def home(request):
+    print(f'req========{request.user}, {request.user.email}, {request.user.first_name}, {request.user.last_name}')
+    html = "<html><body>you are logged in, welcome!</body></html>"
+    return HttpResponse(html)

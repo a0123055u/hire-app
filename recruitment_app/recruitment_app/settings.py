@@ -24,8 +24,8 @@ SECRET_KEY = 'django-insecure-0nemspj9(o^!!xgk(6oovfyz240^v4o(&m=ho(c&tzi!a^srsa
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'ec2-3-95-213-71.compute-1.amazonaws.com']
+# After releasing Elastic Ip and instance is restarted.
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'ec2-184-72-131-182.compute-1.amazonaws.com']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -62,7 +62,20 @@ INSTALLED_APPS = [
     'candidate',
     'phonenumber_field',
     'django_countries',
+    # Allauth related
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.linkedin_oauth2',
+    'allauth.socialaccount.providers.google',
 ]
+
+SITE_ID = 2# allout login settings
+LOGIN_URL = 'candidate/accounts/login'
+LOGIN_REDIRECT_URL = 'home/'
+AUTH_USER_MODEL = 'auth.User'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -158,4 +171,33 @@ REST_FRAMEWORK = {
     )
 }
 
+# Linkedin Authentication Setting
+SOCIALACCOUNT_PROVIDERS = {
+    'linkedin': {
+        'SCOPE': [
+            'r_basicprofile',
+            'r_emailaddress'
+        ],
+        'PROFILE_FIELDS': [
+            'id',
+            'first-name',
+            'last-name',
+            'email-address',
+            'picture-url',
+            'public-profile-url',
+        ]
+    }
+}
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
