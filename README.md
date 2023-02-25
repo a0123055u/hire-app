@@ -6,9 +6,8 @@ To Run this app in your local environment
 2) to avoid mismatch of config use the venv folder given here 
 3) to activate venv need to go to "cd venv/bin/"
 4) set souce "source ./activate" 
-5) pip install -r requirements.txt
-5) to run server go to recruitment_app folder as "cd ../../recruitment_app/"
-6) python manage.py runserver 
+5) go to recruitment_app "cd ../../recruitment_app/" then "pip install -r requirements.txt"
+6) python manage.py runserver from recruitment_app folder
 
 
 Prerequisite:
