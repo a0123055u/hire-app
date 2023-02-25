@@ -13,4 +13,3 @@ class JobDetails(models.Model):
 
     def __str__(self):
         return self.title
-# Test comment Gowtham
