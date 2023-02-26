@@ -170,7 +170,7 @@ REST_FRAMEWORK = {
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     )
 }
-
+SOCIALACCOUNT_QUERY_EMAIL = True
 # Linkedin Authentication Setting
 SOCIALACCOUNT_PROVIDERS = {
     'linkedin': {
