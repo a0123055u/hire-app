@@ -9,4 +9,20 @@ services:
     image: app:recruitment-pipeline
     container_name: recruitment-pipeline-container
     command: python manage.py runserver 0.0.0.0:8000
-    
+    # depends_on:
+    #   - mysql
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'recruitment-pipeline-app-db'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: ''
+      MYSQL_ROOT_PASSWORD: ''
+    ports:
+      - 3306:3306
+      # MYSQL_DATABASE: recruitment-pipeline-app-db
+      # MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+    volumes:
+      - recruitment-pipeline-data:/var/lib/mysql
+volumes:
+  recruitment-pipeline-data:
