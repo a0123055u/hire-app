@@ -19,7 +19,7 @@ services:
       MYSQL_PASSWORD: ''
       MYSQL_ROOT_PASSWORD: ''
     ports:
-      - 3306:3306
+      - 3506:3306
       # MYSQL_DATABASE: recruitment-pipeline-app-db
       # MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
     volumes:

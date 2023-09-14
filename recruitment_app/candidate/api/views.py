@@ -85,3 +85,40 @@ def profile_status(request):
     result = dict()
     result = json.loads(json.dumps(dict(list(STATUS_CHOICES))))
     return JsonResponse(result)
+
+"""
+LIST View for Skill
+"""
+
+from ..models import Skill
+from .serializers import SkillSerializer
+class SkillViewSet(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    model = Skill
+    serializer_class = SkillSerializer
+
+    def get_queryset(self):
+        queryset =Skill.objects.all()
+        id = self.request.query_params.get('id', None)
+        if id:
+            queryset = queryset.filter(id=id)
+        return queryset
+
+
+"""
+LIST View for Visa
+"""
+
+from ..models import Visa
+from .serializers import VisaSerializer
+class VisaViewSet(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    model = Visa
+    serializer_class = VisaSerializer
+
+    def get_queryset(self):
+        queryset =Visa.objects.all()
+        id = self.request.query_params.get('id', None)
+        if id:
+            queryset = queryset.filter(id=id)
+        return queryset
