@@ -33,6 +33,10 @@ class CandidateSerializer(serializers.ModelSerializer):
 
     def get_candidate_details(self, obj):
         if obj and obj.candidate:
-            return f'{obj.candidate.first_name} + " " + {obj.candidate.last_name}+ " "+ {obj.candidate.email}'
+            candidate_dict = dict()
+            candidate_dict['first_name'] = obj.candidate.first_name
+            candidate_dict['last_name'] = obj.candidate.last_name
+            candidate_dict['email'] = obj.candidate.email
+            return candidate_dict
         return None
 
